@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"log-service/data"
 	"net/http"
@@ -44,20 +45,30 @@ func main() {
 		Models: data.New(client),
 	}
 
-	go app.serve()
-}
-
-func (app *Config) serve() {
-	log.Println("Starting log service on port ", webPort)
+	// go app.serve()
+	log.Println("Starting log service on port", webPort)
 	srv := &http.Server{
 		Addr:    ":" + webPort,
 		Handler: app.routes(),
 	}
-	err := srv.ListenAndServe()
+
+	err = srv.ListenAndServe()
 	if err != nil {
 		log.Panic(err)
 	}
 }
+
+// func (app *Config) serve() {
+// 	log.Println("Starting log service on port ", webPort)
+// 	srv := &http.Server{
+// 		Addr:    ":" + webPort,
+// 		Handler: app.routes(),
+// 	}
+// 	err := srv.ListenAndServe()
+// 	if err != nil {
+// 		log.Panic(err)
+// 	}
+// }
 
 func connectToMongo() (*mongo.Client, error) {
 	clientOptions := options.Client().ApplyURI(mongoUrl)
@@ -72,5 +83,6 @@ func connectToMongo() (*mongo.Client, error) {
 		return nil, err
 	}
 
+	fmt.Println("Connected to MongoDB")
 	return c, nil
 }
