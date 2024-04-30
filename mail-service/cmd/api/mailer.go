@@ -76,6 +76,17 @@ func (m *Mail) SendSMPTMessage(msg Message) error {
 
 	email.SetBody(mail.TextPlain, plainMessage)
 	email.AddAlternative(mail.TextHTML, fomattedMessage)
+
+	if len(msg.Attachments) > 0 {
+		for _, attachment := range msg.Attachments {
+			email.AddAttachment(attachment)
+		}
+	}
+	if err = email.Send(smtpClient); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (m *Mail) buildPlainTextMessage(msg Message) (string, error) {
