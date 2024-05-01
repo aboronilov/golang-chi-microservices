@@ -18,7 +18,7 @@ func main() {
 	app := Config{
 		Mailer: createMail(),
 	}
-	fmt.Println("Starting mail service on port" + webPort)
+	fmt.Println("Starting mail service on port " + webPort)
 
 	srv := &http.Server{
 		Addr:    ":" + webPort,
