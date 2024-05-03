@@ -1,6 +1,17 @@
 version: "3"
 
 services:
+  listener-service:
+    build:
+      context: ./../listener-service
+      dockerfile: ./../listener-service/listener-service.dockerfile
+    restart: always
+    ports:
+      - "8084:8084"
+    deploy:
+      mode: replicated
+      replicas: 1
+
   broker-service:
     build:
       context: ./../broker-service
